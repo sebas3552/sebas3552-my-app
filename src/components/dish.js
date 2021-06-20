@@ -1,57 +1,85 @@
-import React, {Component, Fragment} from "react";
-import Button from '@material-ui/core/Button';
-
-export class Ingredient extends Component {
-    render() {
-        return(
-            <Fragment>
-                <h5>{this.props.name}</h5>
-            </Fragment>
-        )
-    }
-  }
-
-export class Flag extends Component {
-    render() {
-        return(
-            <div>
-                <h1>Bandera</h1>
-            </div>
-        )
-    }
-  }
+import React, { Component } from "react";
+import {
+  Card,
+  CardContent,
+  List,
+  ListItem,
+  ListSubheader,
+  ListItemText,
+  ListItemIcon,
+  TextField,
+  IconButton
+} from "@material-ui/core";
+import ScatterPlot from "@material-ui/icons/ScatterPlot";
+import Edit from "@material-ui/icons/Edit";
 
 class Dish extends Component {
   ingredients = ["Tortilla", "Carne", "Cebolla"];
 
-  countIngredients(){
-      return this.ingredients.length;
+  state = {
+    edit: false,
+    name: this.props.name
   }
 
-  goBack = e => {
-    e.preventDefault();
-    this.props.history.push("/")
+  edit = e => {
+    this.setState({ edit: !this.state.edit })
+  };
+
+  handleChange = e => {
+    let newState = {...this.state};
+    newState.name = e.currentTarget.value;
+
+    this.setState(newState);
+  };
+
+  countIngredients() {
+    return this.ingredients.length;
   }
 
   render() {
-      const { params } = this.props.match;
-      
-      return(
-          <div className="dish">
-              <h1>{this.props.name}</h1>
-              <h1>{params.name}</h1>
-              {this.countIngredients()}
-              <ul>
-                  {this.ingredients.map((ingredient, index) => (
-                      <li key={index}>
-                        <Ingredient keyIndex={index} name={ingredient}></Ingredient>
-                      </li>
-                  ))}
-              </ul>
-              <Button variant="contained">Default</Button>
-              <Button variant="contained" color="primary" onClick={this.goBack}>Volver</Button>
-          </div>
-      )
+    return (
+      <Card className="card">
+        <CardContent>
+          <List
+            component="nav"
+            subheader={
+              <ListSubheader component="div">
+                {this.state.edit ? 
+                (
+                  <TextField
+                    label="Platillo..."
+                    type="text"
+                    margin="normal"
+                    variant="outlined"
+                    value={this.state.name}
+                    onChange={this.handleChange}
+                  />
+                ) :
+                (
+                  this.props.name
+                )
+              }
+              <IconButton
+                size="small"
+                onClick={this.edit}
+              >
+                <Edit></Edit>
+              </IconButton>
+              </ListSubheader>
+            }
+          >
+            {this.props.ingredients.map((ingredient, index) => (
+              <ListItem button key={index}>
+                <ListItemIcon>
+                  <ScatterPlot />
+                </ListItemIcon>
+                <ListItemText inset primary={ingredient} />
+              </ListItem>
+            ))}
+          </List>
+        </CardContent>
+      </Card>
+    );
   }
 }
 
