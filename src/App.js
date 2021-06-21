@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import './styles/App.css';
 import Header from "./components/header";
+import { Button } from "@material-ui/core";
 import NewDish from "./components/newDish";
 import Dishes from "./components/dishes";
 import data from "./assets/data/dishes.json";
@@ -36,10 +37,21 @@ class App extends Component {
     this.setState(newState);
   }
 
+  goToCountries = () => {
+    this.props.history.push("/paises");
+  };
+
   render() {
     return (
       <div className="App">
         <Header />
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={this.goToCountries}
+        >
+          Ir a países
+        </Button>
         <NewDish onAddDish={this.addDish} />
         {/* <Dish name={this.dish} qty="3" /> */}
         <Dishes data={this.state.dishes} onUpdateDish={this.updateDish}></Dishes>
