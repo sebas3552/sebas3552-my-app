@@ -50,10 +50,9 @@ class App extends Component {
           color="secondary"
           onClick={this.goToCountries}
         >
-          Ir a países
+          Ver países
         </Button>
         <NewDish onAddDish={this.addDish} />
-        {/* <Dish name={this.dish} qty="3" /> */}
         <Dishes data={this.state.dishes} onUpdateDish={this.updateDish}></Dishes>
       </div>
     );
